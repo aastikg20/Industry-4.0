@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title %}
+{% block body %}    
+<div class="container px-4 ">
+    <div class="container px-4"><br>
+        <h1 class="mt-2 text-3xl leading-8 font-bold tracking-tight text-green-700 sm:text-4xl text-center">Inventory Details</h1>
+    </div>
+    <form class="row g-3 pt-5" method="post" action= "/inventoryInput">
+        {% csrf_token %}  
+        <div class="col-6">
+            <label for="productSno" class="form-label"style="font-size:20px">Product SNo.</label>
+            <input type="text" class="form-control" id="productSno" placeholder="Enter Component Name" name="productSno">
+        </div>
+        <div class="col-6">
+            <label for="level" class="form-label"style="font-size:20px">Level</label>
+            <input type="text" class="form-control" id="level" placeholder="Enter Component Level" name="level">
+        </div>
+        <div class="col-6">
+            <label for="qpp" class="form-label"style="font-size:20px">QPP</label>
+            <input type="Number" class="form-control" id="qpp" placeholder="Quantity Per Coach" name="qpp">
+        </div>
+        
+        <div class="col-6">
+            <label for="drawingno" class="form-label"style="font-size:20px">Drawing No</label>
+            <input type="text" class="form-control" id="drawingno" placeholder="Please Enter Part Serial Number" name="drawingno">
+        </div>
+        <div class="col-6">
+            <label for="availableNos" class="form-label"style="font-size:20px">Available Nos.</label>
+            <input type="text" class="form-control" id="availableNos" placeholder="Please Enter Part Serial Number" name="availableNos">
+        </div>
+       
+        <div class="col-md-6">
+            <label for="timein" class="form-label"style="font-size:20px">Time In</label>
+            <div class='input-group date' id='timein'>
+                <input type='datetime-local' class="form-control" name="timein" />
+                <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+       
+        <div class=" container col-12">
+            <button type="submit" class="btn btn-primary"style="font-size:20px">Save</button>
+            <button type="submit" class="btn btn-primary"style="font-size:20px">Clear</button>
+        </div>
+      
+    </form>
+    <table class="table"style="font-size:20px">
+        <thead>
+            <tr>
+                <th scope="col">S No.</th>
+                <th scope="col">Product S No..</th>
+                <th scope="col">Level</th>
+                <th scope="col">QPP</th>
+                <th scope="col">Dimension</th>
+                <th scope="col">Drawing No.</th>
+                <th scope="col">Available Nos.</th>
+                <th scope="col">Descriptions</th>
+                <th scope="col">Time In</th>
+                <th scope="col">Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% if inhouseInvs|length > 0 %}    
+                {% for Data in inhouseInvs %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{Data.productSno}}</td>
+                        <td>{{Data.level}}</td>
+                        <td>{{Data.qpp}}</td>
+                        <td>{{Data.drawingno}}</td>
+                        <td>{{Data.drawingno}}</td>
+                        <td>{{Data.availableNos}}</td>
+                        <td>{{Data.drawingno}}</td>
+                        <td>{{Data.timein}}</td>
+                        <td>
+                            <a href="/invUpdate/{{forloop.counter}}" type="button" class="btn btn-outline-dark btn-sm mx-1">Add to Inv</button>
+                            <a href="/delete/{{Data.sno}}" type="button" class="btn btn-outline-dark btn-sm mx-1">Delete</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock body %}
